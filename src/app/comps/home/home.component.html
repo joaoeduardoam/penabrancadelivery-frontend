@@ -1,0 +1,24 @@
+<div class="flex justify-center flex-wrap gap-5 p-5" >
+    <div *ngFor="let v of vector; let idx = index">
+        <app-product-card/>
+    </div>
+</div>
+
+<div class="fixed bottom-10 right-10">
+    <!-- style="border-radius: 50%; => rounded-full -->
+    <button mat-fab style="background-color: #ba005c; color: white; border-radius: 50%"> 
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+
+<!-- <div class="flex justify-center flex-wrap gap-5 p-5">
+    @for(item of vector;track 1){
+        <app-product-card/>
+    }
+    @empty {
+        No products
+    }
+</div> -->
+
+
+

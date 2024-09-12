@@ -1,4 +1,8 @@
-<mat-toolbar class="text-gray-600">
+<div class="text-gray-600 bg-red-800">
+    
+<mat-toolbar>
+
+    
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
       <mat-icon>menu</mat-icon>
     </button>
@@ -9,14 +13,17 @@
         <span class="ml-3 text-xl">Pena Branca Delivery</span>
       </a>
     <span class="example-spacer"></span>
-    <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-        <a class="mr-5 hover:text-gray-600">First Link</a>
-        <a class="mr-5 hover:text-gray-600">Second Link</a>
-        <a class="mr-5 hover:text-gray-600">Third Link</a>
-        <a class="mr-5 hover:text-gray-600">Fourth Link</a>
+    <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center ">
+        <div class="example-button-row">
+            <button mat-button>First Link</button>
+            <button mat-button>Second Link</button>
+            <button mat-button>Third Link</button>
+        </div>
       </nav>
     <button mat-flat-button>
         Entrar<mat-icon>login</mat-icon>
     </button>
   </mat-toolbar>
+</div>
+
 
