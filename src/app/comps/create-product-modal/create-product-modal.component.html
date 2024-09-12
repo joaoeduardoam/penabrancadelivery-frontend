@@ -1,1 +1,14 @@
-<p>create-product-modal works!</p>
+<form class="w-[27rem] p-6 rounded-lg shadow-md" [formGroup]="formProduct">
+    <div class="mb-4">
+        <mat-form-field class="example-full-width">
+            <mat-label>Nome</mat-label>
+            <input type="text" matInput placeholder="Frango Assado">
+            @if (formProduct.hasError('title') && !formProduct.hasError('required')) {
+              <mat-error>Please enter a valid email address</mat-error>
+            }
+            @if (formProduct.hasError('required')) {
+              <mat-error>Email is <strong>required</strong></mat-error>
+            }
+          </mat-form-field>
+    </div>
+</form>
