@@ -1,11 +1,11 @@
 @use '@angular/material' as mat;
 
-$custom-primary: mat.define-palette(mat.$purple-palette);
+/* $custom-primary: mat.define-palette(mat.$purple-palette); */
 
-$custom-theme: mat.define-light-theme((
+/* $custom-theme: mat.define-light-theme((
   color: (
     primary: $custom-primary,
   ),
 ));
 
-@include mat.all-component-themes($custom-theme);
+@include mat.all-component-themes($custom-theme); */

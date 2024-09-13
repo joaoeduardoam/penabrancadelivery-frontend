@@ -1,14 +1,63 @@
-<form class="w-[27rem] p-6 rounded-lg shadow-md" [formGroup]="formProduct">
-    <div class="mb-4">
-        <mat-form-field class="example-full-width">
-            <mat-label>Nome</mat-label>
-            <input type="text" matInput placeholder="Frango Assado">
-            @if (formProduct.hasError('title') && !formProduct.hasError('required')) {
-              <mat-error>Please enter a valid email address</mat-error>
+<form (ngSubmit)="onSubmit()" class="w-[27rem] p-6 rounded-lg shadow-md opacity-80" [formGroup]="formProduct">
+    <div class="mb-4 justify-center">
+        
+      <div class="p-4 mb-1 text-custom-span">
+        <span class="text-xl font-medium text-custom-span"> Novo Produto </span>
+      </div>
+         <mat-form-field class="example-full-width"> 
+            <mat-label>Título</mat-label>
+            <input type="text" matInput placeholder="Frango Assado" formControlName="title">
+            @if (formProduct.get('title').hasError('required')) {
+              <mat-error>Campo Título é obrigatório. </mat-error>
             }
-            @if (formProduct.hasError('required')) {
-              <mat-error>Email is <strong>required</strong></mat-error>
+            @if (formProduct.get('title').hasError('minlength') && formProduct.get('title').touched) {
+              <mat-error>Título de ve ter no mínimo 3 caracteres. </mat-error>
             }
           </mat-form-field>
+
+          
+          <mat-form-field class="example-full-width"> 
+            <mat-label>Descrição</mat-label>
+            <textarea matInput placeholder="O melhor frango assado da cidade.... " formControlName="description"></textarea>
+            @if (formProduct.get('description').hasError('required')) {
+              <mat-error>Campo Descrição é obrigatório. </mat-error>
+            }
+            @if (formProduct.get('description').hasError('minlength') && formProduct.get('description').touched) {
+              <mat-error>Título deve ter no mínimo 5 caracteres. </mat-error>
+            }
+          </mat-form-field>
+
+          
+          <mat-form-field class="example-full-width"> 
+            <mat-label>Preço</mat-label>
+            <input type="text" matInput placeholder="R$ 10,00" formControlName="price">
+            @if (formProduct.get('price').hasError('required')) {
+              <mat-error>Campo Preço é obrigatório. </mat-error>
+            }
+            @if (formProduct.get('price').hasError('min') && formProduct.get('price').touched) {
+              <mat-error>Preço deve ser maior que zero. </mat-error>
+            }
+            @if (formProduct.get('price').hasError('pattern') && formProduct.get('price').touched) {
+              <mat-error>Preço deve ter um número válido. </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width"> 
+            <mat-label>URL da imagem</mat-label>
+            <input type="text" matInput placeholder="https://img.cybercook.com.br/receitas/426/galeto-na-brasa.jpeg" formControlName="image">
+            @if (formProduct.get('image').hasError('required')) {
+              <mat-error>Campo Imagem é obrigatório. </mat-error>
+            }
+            @if (formProduct.get('image').hasError('pattern') && formProduct.get('image').touched) {
+              <mat-error>Entre com uma URL válida. </mat-error>
+            }
+          </mat-form-field>
+
+          <div class="flex justify-center">
+            <button mat-flat-button type="submit">
+              <mat-icon>save</mat-icon>Cadastrar
+           </button>
+          </div>
+
     </div>
 </form>

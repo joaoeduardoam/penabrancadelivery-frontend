@@ -9,3 +9,8 @@ body { margin: 0;
      /* background: yellow */
     
     }
+
+    :root {
+     --primary-color: #ba005;
+   }
+   
