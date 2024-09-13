@@ -16,19 +16,35 @@
               Muitas vezes até mais suculenta também! Principalmente com o nosso tempero especial!
             </p>
         </mat-card-content>
-        <mat-card-actions class="flex justify-between mx-2">
-            <div>
-                <span class="text-xl font-medium">R$ 36,00</span>
+        <mat-card-actions class="flex mx-2 justify-between">
+            <div class="flex items-center">
+                <span class="text-base font-medium text-left flex-shrink-0 mr-1">R$ 36,00</span>
+            
+                <div class="flex justify-between ">
+                    <button mat-button >
+                        <mat-icon>add_shopping_cart</mat-icon>
+                        Adicionar
+                    </button>
+                    
+                    
+                </div>
+                
+                
+                  
+                
+                <!-- <button mat-button class="w-50 flex items-center gap-0">
+                    <mat-icon>delete</mat-icon>
+                </button> -->
+                <!-- <button mat-fab class="w-2 h-2" style="background-color: #ba005c; color: white; border-radius: 50%; width: 40px; height: 40px;"> 
+                    <mat-icon>delete</mat-icon>
+                </button> -->
             </div>
-            <div class="flex justify-between ">
-                <button mat-button >
-                    <mat-icon>add_shopping_cart</mat-icon>
-                    Adicionar
-                </button>
-                <button mat-button class="w-50 flex items-center gap-0">
-                    <!-- <mat-icon>shopping_cart</mat-icon> -->
-                    <mat-icon>local_atm</mat-icon>
-                    Comprar
+            <div class="flex gap-2">
+                <button mat-fab style="background-color: primary; color: #ba005c;width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                <button mat-fab style="background-color: primary; color: #ba005c;width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                  <mat-icon>delete</mat-icon>
                 </button>
             </div>
             
