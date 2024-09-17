@@ -2,9 +2,9 @@
     <div class="mb-4 justify-center">
         
       <div class="p-4 mb-1 text-custom-span">
-        <span class="text-xl font-medium text-custom-span"> Novo  Produto </span>
+        <span class="text-xl font-medium text-custom-span"> Atualizar Produto </span>
       </div>
-         <mat-form-field class="example-full-width"> 
+         <mat-form-field class="example-full-width flex-1"> 
             <mat-label>Título</mat-label>
             <input type="text" matInput placeholder="Frango Assado" formControlName="title">
             @if (formProduct.get('title').hasError('required')) {
@@ -55,7 +55,7 @@
 
           <div class="flex justify-center">
             <button mat-flat-button type="submit">
-              <mat-icon>save</mat-icon>Cadastrar
+              <mat-icon>update</mat-icon>Atualizar
            </button>
           </div>
 
