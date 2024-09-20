@@ -16,7 +16,7 @@ import {MatRadioModule} from '@angular/material/radio';
 })
 export class AuthComponent {
 
-  isRegister=false;
+  isRegister=true;
 
   roleValidator(control: FormControl): ValidationErrors | null {
     const validRoles = ['ADMIN', 'CUSTOMER'];
@@ -47,7 +47,9 @@ export class AuthComponent {
     console.log("register", this.formLogin.value)
   }
 
-
+  togglePanel(){
+    this.isRegister=!this.isRegister
+  }
 
 
 }

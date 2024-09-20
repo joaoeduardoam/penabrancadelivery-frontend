@@ -2,7 +2,7 @@
     <div class="container" > 
          <!-- w-screen h-screen flex -->
         
-         <div class="cover" [ngClass]="{'route-active':isRegister}" >
+         <div class="cover" [ngClass]="{'rotate-active':isRegister}" >
             <div class="front">
                 <img class="object-cover" src="https://i.pinimg.com/originals/86/44/30/8644302c671ede42d29dda9f43c201f5.jpg" alt="">
 
@@ -20,9 +20,6 @@
 
             <div class="back">
                 <img class="object-cover" src="https://i.pinimg.com/originals/73/00/d3/7300d3dc8d1cb1f75229adc41d135a1f.jpg" alt="">
-
-                
-
             </div>
 
         </div>
@@ -89,7 +86,62 @@
                     </form>
                     <div class="flex justify-center items-center pt-4">
                         <span class="text-base font-bold text-center pb-8">
-                            Já tem conta? <button mat-button>Entre e aproveite!</button>
+                            Já tem conta? <button (click)="togglePanel()" mat-button>Entre e aproveite!</button>
+                        </span>
+                    </div>
+                    
+
+                </div>
+
+                <div class="signup-form">
+                    <h1 class="text-lg font-bold text-center pb-8">
+                        Entrar
+                    </h1>
+
+                    <form (ngSubmit)="handleLogin()" [formGroup]="formLogin">
+                        <div class="mb-4 justify-center">
+                                                          
+                              <mat-form-field class="example-full-width"> 
+                                <mat-label>Email</mat-label>
+                                <input type="email" matInput placeholder="chicodasilva@email.com " formControlName="email">
+                                @if (formRegistration.get('email').hasError('required')) {
+                                  <mat-error>Campo Email é obrigatório. </mat-error>
+                                }
+                                @if (formRegistration.get('email').hasError('email') && formRegistration.get('email').touched) {
+                                  <mat-error>Entre com um email válido. </mat-error>
+                                }
+                              </mat-form-field>
+                    
+                              
+                              <mat-form-field class="example-full-width"> 
+                                <mat-label>Senha</mat-label>
+                                <input type="password" matInput placeholder="" formControlName="password">
+                                @if (formRegistration.get('password').hasError('required')) {
+                                  <mat-error>Campo Senha é obrigatório. </mat-error>
+                                }
+                                @if (formRegistration.get('password').hasError('minlenth') && formRegistration.get('password').touched) {
+                                  <mat-error>Senha deve ter no mínimo 6 caracteres. </mat-error>
+                                }
+                              </mat-form-field>
+
+
+
+                              <!-- <mat-radio-group formControlName="role">
+                                <mat-radio-button value="CUSTOMER">Usuário</mat-radio-button>
+                                <mat-radio-button value="ADMIN">Administrador</mat-radio-button>
+                              </mat-radio-group> -->
+                                        
+                              <div class="flex justify-center">
+                                <button type="submit" mat-fab extended class="w-full" style="background-color: #ba005c; color: white;"> 
+                                    <mat-icon>login</mat-icon>Entrar
+                                </button>
+                              </div>
+                    
+                        </div>
+                    </form>
+                    <div class="flex justify-center items-center pt-4">
+                        <span class="text-base font-bold text-center pb-8">
+                            Não tem conta? <button (click)="togglePanel()" mat-button>Cadastre-se!</button>
                         </span>
                     </div>
                     
