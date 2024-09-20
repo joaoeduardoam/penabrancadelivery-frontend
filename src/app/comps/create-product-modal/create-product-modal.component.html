@@ -30,7 +30,7 @@
           
           <mat-form-field class="example-full-width"> 
             <mat-label>Preço</mat-label>
-            <input type="text" matInput placeholder="R$ 10,00" formControlName="price">
+            <input currencyMask [options]="{prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left'}" type="text" matInput placeholder="R$ 10,00" formControlName="price">
             @if (formProduct.get('price').hasError('required')) {
               <mat-error>Campo Preço é obrigatório. </mat-error>
             }

@@ -34,58 +34,69 @@
                         Cadastre-se
                     </h1>
 
-                    <form (ngSubmit)="onSubmit()" [formGroup]="formProduct">
+                    <form (ngSubmit)="handleRegister()" [formGroup]="formRegistration">
                         <div class="mb-4 justify-center">
                             
                              <mat-form-field class="example-full-width"> 
-                                <mat-label>Título</mat-label>
-                                <input type="text" matInput placeholder="Frango Assado" formControlName="title">
-                                @if (formProduct.get('title').hasError('required')) {
-                                  <mat-error>Campo Título é obrigatório. </mat-error>
+                                <mat-label>Nome</mat-label>
+                                <input type="text" matInput placeholder="Chico da Silva" formControlName="name">
+                                @if (formRegistration.get('name').hasError('required')) {
+                                  <mat-error>Campo Nome é obrigatório. </mat-error>
                                 }
-                                @if (formProduct.get('title').hasError('minlength') && formProduct.get('title').touched) {
-                                  <mat-error>Título de ve ter no mínimo 3 caracteres. </mat-error>
-                                }
-                              </mat-form-field>
-                    
-                              
-                              <mat-form-field class="example-full-width"> 
-                                <mat-label>Descrição</mat-label>
-                                <textarea matInput placeholder="O melhor frango assado da cidade.... " formControlName="description"></textarea>
-                                @if (formProduct.get('description').hasError('required')) {
-                                  <mat-error>Campo Descrição é obrigatório. </mat-error>
-                                }
-                                @if (formProduct.get('description').hasError('minlength') && formProduct.get('description').touched) {
-                                  <mat-error>Título deve ter no mínimo 5 caracteres. </mat-error>
+                                @if (formRegistration.get('name').hasError('minlength') && formRegistration.get('name').touched) {
+                                  <mat-error>Nome deve ter no mínimo 5 caracteres. </mat-error>
                                 }
                               </mat-form-field>
                     
                               
                               <mat-form-field class="example-full-width"> 
-                                <mat-label>Preço</mat-label>
-                                <input type="text" matInput placeholder="R$ 10,00" formControlName="price">
-                                @if (formProduct.get('price').hasError('required')) {
-                                  <mat-error>Campo Preço é obrigatório. </mat-error>
+                                <mat-label>Email</mat-label>
+                                <input type="email" matInput placeholder="chicodasilva@email.com " formControlName="email">
+                                @if (formRegistration.get('email').hasError('required')) {
+                                  <mat-error>Campo Email é obrigatório. </mat-error>
                                 }
-                                @if (formProduct.get('price').hasError('min') && formProduct.get('price').touched) {
-                                  <mat-error>Preço deve ser maior que zero. </mat-error>
-                                }
-                                @if (formProduct.get('price').hasError('pattern') && formProduct.get('price').touched) {
-                                  <mat-error>Preço deve ter um número válido. </mat-error>
+                                @if (formRegistration.get('email').hasError('email') && formRegistration.get('email').touched) {
+                                  <mat-error>Entre com um email válido. </mat-error>
                                 }
                               </mat-form-field>
+                    
+                              
+                              <mat-form-field class="example-full-width"> 
+                                <mat-label>Senha</mat-label>
+                                <input type="password" matInput placeholder="" formControlName="password">
+                                @if (formRegistration.get('password').hasError('required')) {
+                                  <mat-error>Campo Senha é obrigatório. </mat-error>
+                                }
+                                @if (formRegistration.get('password').hasError('minlenth') && formRegistration.get('password').touched) {
+                                  <mat-error>Senha deve ter no mínimo 6 caracteres. </mat-error>
+                                }
+                              </mat-form-field>
+
+
+
+                              <!-- <mat-radio-group formControlName="role">
+                                <mat-radio-button value="CUSTOMER">Usuário</mat-radio-button>
+                                <mat-radio-button value="ADMIN">Administrador</mat-radio-button>
+                              </mat-radio-group> -->
                                         
                               <div class="flex justify-center">
-                                <button mat-flat-button type="submit">
-                                  <mat-icon>save</mat-icon>Cadastrar
-                               </button>
+                                <button type="submit" mat-fab extended class="w-full" style="background-color: #ba005c; color: white;"> 
+                                    <mat-icon>person_add</mat-icon>Cadastrar
+                                </button>
                               </div>
                     
                         </div>
                     </form>
+                    <div class="flex justify-center items-center pt-4">
+                        <span class="text-base font-bold text-center pb-8">
+                            Já tem conta? <button mat-button>Entre e aproveite!</button>
+                        </span>
+                    </div>
                     
 
                 </div>
+
+                
                 
             </div>
 

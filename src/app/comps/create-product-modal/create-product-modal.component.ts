@@ -6,6 +6,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 // export class MyErrorStateMatcher implements ErrorStateMatcher {
 //   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -17,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-create-product-modal',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule, MatIconModule, MatButtonModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule, MatIconModule, MatButtonModule, CurrencyMaskModule],
   templateUrl: './create-product-modal.component.html',
   styleUrl: './create-product-modal.component.css'
 })
