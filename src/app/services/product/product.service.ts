@@ -31,7 +31,7 @@ export class ProductService {
     return this.http.get(`${this.baseUrl}/products`,{headers}).pipe(
       tap((products)=>{
         const currentState=this.productSubject.value;
-        this.productSubject.next({...currentState,products})
+        this.productSubject.next({...currentState,products});
       })
     )
   }
@@ -54,7 +54,22 @@ export class ProductService {
       tap((updatedProduct:any)=>{
         const currentState=this.productSubject.value;
         const updatedProducts=currentState.products.map
-          ((item:any)=>item.id===updatedProduct.id?updatedProduct:item)
+          ((item:any)=>
+            item.id===updatedProduct.id ? updatedProduct : item );
+        this.productSubject.next({...currentState, 
+          products: updatedProducts});
+      })
+    )
+  }
+
+  deleteProduct(productId:any):Observable<any>{
+    const headers=this.getHeaders();
+    return this.http.delete(`${this.baseUrl}/products/${productId}`, {headers}).pipe(
+      tap((deletedProduct:any)=>{
+        const currentState=this.productSubject.value;
+        const updatedProducts=currentState.products.filter
+          ((item:any)=>
+            item.id !== productId );
         this.productSubject.next({...currentState, 
           products: updatedProducts});
       })
