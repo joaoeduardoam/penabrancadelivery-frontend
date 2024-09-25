@@ -6,6 +6,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatRadioModule} from '@angular/material/radio';
+import { AuthService } from '../../services/auth/auth.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-auth',
@@ -17,6 +19,8 @@ import {MatRadioModule} from '@angular/material/radio';
 export class AuthComponent {
 
   isRegister=true;
+
+  constructor (public authService: AuthService){}
 
   roleValidator(control: FormControl): ValidationErrors | null {
     const validRoles = ['ADMIN', 'CUSTOMER'];
@@ -45,6 +49,14 @@ export class AuthComponent {
 
   handleLogin(){
     console.log("register", this.formLogin.value)
+    this.authService.login(this.formLogin.value).subscribe({
+      next:(response)=>{
+        localStorage.setItem("jwt", response.jwt);
+        this.authService.getUserProfile().subscribe();
+        console.log("login success", response)
+
+      }
+    })
   }
 
   togglePanel(){
