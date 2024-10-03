@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatRadioModule} from '@angular/material/radio';
 import { AuthService } from '../../services/auth/auth.service';
-import { response } from 'express';
 
 @Component({
   selector: 'app-auth',
@@ -44,14 +43,23 @@ export class AuthComponent {
   })
 
   handleRegister(){
-    console.log("register", this.formRegistration.value)
+    console.log("register: ", this.formRegistration.value)
+    this.authService.register(this.formRegistration.value).subscribe({
+      next:(response)=>{
+        localStorage.setItem("jwt", response.token);
+        this.authService.getUserProfile().subscribe();
+        console.log("register user success", response)
+
+      }
+    })
   }
 
   handleLogin(){
-    console.log("register", this.formLogin.value)
+    console.log("login: ", this.formLogin.value)
     this.authService.login(this.formLogin.value).subscribe({
       next:(response)=>{
-        localStorage.setItem("jwt", response.jwt);
+        console.log("response: ", response)
+        localStorage.setItem("jwt", response.token);
         this.authService.getUserProfile().subscribe();
         console.log("login success", response)
 

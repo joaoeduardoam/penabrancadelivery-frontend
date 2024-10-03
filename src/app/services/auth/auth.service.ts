@@ -24,6 +24,7 @@ export class AuthService {
   })
 
   login(userData:any):Observable<any>{
+    console.log("userData: ", userData)
     return this.http.post<any>(`${this.baseUrl}/login`, userData)
   }
 
@@ -35,8 +36,10 @@ export class AuthService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem("jwt")}`
     })
-    return this.http.post<any>(`${this.baseUrl}/users`, {headers}).pipe(
+    console.log("headers", headers)
+    return this.http.get<any>(`${this.baseUrl}/users/profile`, {headers}).pipe(
       tap((user)=>{
+        console.log("get user profile", user)
         const currentState=this.authSubject.value;
         this.authSubject.next({...currentState,user})
       })

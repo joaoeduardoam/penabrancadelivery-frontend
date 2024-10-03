@@ -4,6 +4,7 @@ import { HeaderComponent } from "./comps/header/header.component";
 import { FooterComponent } from "./comps/footer/footer.component";
 import { HomeComponent } from "./comps/home/home.component";
 import { AuthComponent } from "./comps/auth/auth.component";
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -14,4 +15,11 @@ import { AuthComponent } from "./comps/auth/auth.component";
 })
 export class AppComponent {
   title = 'penabrancadelivery-frontend';
+
+  // constructor (public authService:AuthService){}
+  // // ngOnInit(): void {    
+  // //   this.authService.getUserProfile().subscribe;
+  // // }
+
+
 }
