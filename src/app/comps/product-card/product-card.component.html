@@ -1,7 +1,7 @@
-<mat-card class="example-card max-w-[370px]" appearance="outlined">
+<mat-card class="bg-red-200 example-card max-w-[370px] rounded-none" appearance="outlined">
     <div >
-        <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-header class="">
+            <!-- <div mat-card-avatar class="example-header-image"></div> -->
             <mat-card-title>Frango Assado</mat-card-title>
             <mat-card-subtitle>Nosso carro-chefe</mat-card-subtitle>
         </mat-card-header>
@@ -18,20 +18,11 @@
         </mat-card-content>
         <mat-card-actions class="flex mx-2 justify-between">
             <div class="flex items-center">
-                <span class="text-base font-medium text-left flex-shrink-0 mr-1">R$ 36,00</span>
+                <span class="text-xl font-bold text-left flex-shrink-0 mr-1">R$ 36,00</span>
             
-                <div class="flex justify-between ">
-                    <button mat-button >
-                        <mat-icon>add_shopping_cart</mat-icon>
-                        Adicionar
-                    </button>
-                    
-                    
+                <div>
+                        
                 </div>
-                
-                
-                  
-                
                 <!-- <button mat-button class="w-50 flex items-center gap-0">
                     <mat-icon>delete</mat-icon>
                 </button> -->
@@ -40,6 +31,10 @@
                 </button> -->
             </div>
             <div class="flex gap-2">
+                <button mat-button >
+                    <mat-icon>add_shopping_cart</mat-icon>
+                    Adicionar
+                </button> 
                 <button mat-fab (click)="openUpdateProductModal()"
                     style="background-color: primary; color: #ba005c;width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                     <mat-icon>edit</mat-icon>

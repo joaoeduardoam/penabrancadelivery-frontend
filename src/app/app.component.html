@@ -1,14 +1,19 @@
 <div>
-    <!-- <div class="min-h-[93vh] bg-red-100"> -->
-        <!-- <app-header></app-header> -->
-        <!-- <app-home/> -->
-         <app-auth/>
-    <!-- </div> -->
+    <div class="min-h-[93vh]">
+        <app-header></app-header>
+        @if(user){
+            <app-home/>
+        }
+        @else {
+            <app-auth/>
+        }
+         
+    </div>
 
 </div>
 
 <!-- <p class="min-h-[85vh] bg-red-100"></p> -->
 
 <div>
-    <!-- <app-footer ></app-footer> -->
+    <app-footer ></app-footer>
 </div>

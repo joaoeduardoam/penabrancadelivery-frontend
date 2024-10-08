@@ -17,7 +17,9 @@ import { CreateProductModalComponent } from '../create-product-modal/create-prod
 })
 export class HomeComponent {
 
-  vector= [1,1,1,1,1,1]
+  vector= [1,1,1,1]
+
+ 
 
   constructor (public dialog: MatDialog){}
 

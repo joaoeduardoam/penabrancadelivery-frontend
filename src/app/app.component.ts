@@ -16,10 +16,19 @@ import { AuthService } from './services/auth/auth.service';
 export class AppComponent {
   title = 'penabrancadelivery-frontend';
 
-  // constructor (public authService:AuthService){}
-  // // ngOnInit(): void {    
-  // //   this.authService.getUserProfile().subscribe;
-  // // }
+  user:any=null;
+
+  constructor (public authService:AuthService){}
+  ngOnInit(): void {    
+    if (typeof window !== 'undefined') {
+      this.authService.getUserProfile().subscribe(
+        (auth)=>{
+          this.user = auth.email
+        }
+      );
+    }
+    
+  }
 
 
 }

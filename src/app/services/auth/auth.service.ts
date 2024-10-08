@@ -47,8 +47,10 @@ export class AuthService {
   }
 
   logout(){
+    console.log("logout1: ", localStorage)
     localStorage.clear()
     this.authSubject.next({})
+    console.log("logout2: ", localStorage)
   }
 
 

@@ -1,28 +1,44 @@
-<div class="text-gray-600 bg-red-800">
+<div class="bg-red-800">
     
-<mat-toolbar>
+<mat-toolbar>    
 
-    
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
       <mat-icon>menu</mat-icon>
     </button>
+
+
     <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-red-500 rounded-full" viewBox="0 0 24 24">
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
         </svg>
         <span class="ml-3 text-xl">Pena Branca Delivery</span>
-      </a>
+    </a>
+
+
     <span class="example-spacer"></span>
+
+
     <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center ">
-        <div class="example-button-row">
+        <!-- <div class="example-button-row">
             <button mat-button>First Link</button>
             <button mat-button>Second Link</button>
             <button mat-button>Third Link</button>
-        </div>
+        </div> -->
       </nav>
-    <button mat-flat-button>
-        Entrar<mat-icon>login</mat-icon>
+
+
+    <button mat-button [style.color]="'#ba005c'">
+        {{userName}}
     </button>
+
+    <div class="custom-color">
+      <button mat-button [matMenuTriggerFor]="menu">{{userName}}</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [style.color]="'#ba005c'" (click)="handleLogOut()">Logout</button>
+      </mat-menu>
+    </div>
+    
+
   </mat-toolbar>
 </div>
 
