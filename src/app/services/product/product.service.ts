@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Product } from '../../model/Product';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,8 @@ export class ProductService {
 
   createProduct(product:any):Observable<any>{
     const headers=this.getHeaders();
-    return this.http.post(`${this.baseUrl}/products`, product, {headers}).pipe(
+    console.log("createProduct() product: ", product.value)
+    return this.http.post(`${this.baseUrl}/products`, product.value, {headers}).pipe(
       tap((newProduct)=>{
         const currentState=this.productSubject.value;
         this.productSubject.next({...currentState, 

@@ -38,6 +38,7 @@ export class HomeComponent {
 
     this.productService.productSubject.subscribe(
       (state)=>{
+        console.log("Prodcts state: ", state)
         this.products = state.products
       }
     )

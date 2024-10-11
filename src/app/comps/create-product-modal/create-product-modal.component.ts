@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { ProductService } from '../../services/product/product.service';
+import { error } from 'console';
 
 // export class MyErrorStateMatcher implements ErrorStateMatcher {
 //   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -24,6 +26,8 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 })
 export class CreateProductModalComponent {
 
+  constructor(private productService:ProductService){}
+
   urlPattern = '(https?://)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)';
 
   formProduct = new FormGroup({
@@ -35,6 +39,10 @@ export class CreateProductModalComponent {
 
   onSubmit(){
     console.log("values", this.formProduct)
+    this.productService.createProduct(this.formProduct).subscribe({
+      next:(data: any)=>console.log("Product Created!", data),
+      error:(error: any)=>console.log("Error: Product Created", error)
+    })
   }
 
   // matcher = new MyErrorStateMatcher();
