@@ -35,7 +35,9 @@ export class HeaderComponent {
 
   handleLogOut(){
     this.authService.logout()
-    this.router.navigate(['/'])
+    this.router.navigate(['/']).then(() => {
+      window.location.reload();
+    });
   }
 
 }

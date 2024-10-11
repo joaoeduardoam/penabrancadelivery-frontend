@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatRadioModule} from '@angular/material/radio';
 import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -19,7 +20,7 @@ export class AuthComponent {
 
   isRegister=true;
 
-  constructor (public authService: AuthService){}
+  constructor (public authService: AuthService, private router:Router){}
 
   roleValidator(control: FormControl): ValidationErrors | null {
     const validRoles = ['ADMIN', 'CUSTOMER'];
@@ -56,15 +57,26 @@ export class AuthComponent {
 
   handleLogin(){
     console.log("login: ", this.formLogin.value)
+
     this.authService.login(this.formLogin.value).subscribe({
       next:(response)=>{
-        console.log("response: ", response)
+        console.log("handleLogin() response: ", response)
         localStorage.setItem("jwt", response.token);
         this.authService.getUserProfile().subscribe();
-        console.log("login success", response)
+        console.log("handleLogin() login success", response)
+
+        this.router.navigate(['/']).then(() => {
+          window.location.reload();
+        });
 
       }
     })
+
+    error: (err: any) => {
+      console.log("Erro no login: ", err);
+    }
+    
+
   }
 
   togglePanel(){
