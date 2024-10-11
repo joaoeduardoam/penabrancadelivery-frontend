@@ -2,7 +2,7 @@
     <div >
         <mat-card-header class="">
             <!-- <div mat-card-avatar class="example-header-image"></div> -->
-            <mat-card-title>Frango Assado</mat-card-title>
+            <mat-card-title>{{product.title}}</mat-card-title>
             <mat-card-subtitle>Nosso carro-chefe</mat-card-subtitle>
         </mat-card-header>
         <div class="flex justify-center">
@@ -11,14 +11,12 @@
         
         <mat-card-content class="items-center mt-2">
             <p class="text-justify text-sm ">
-              Melhor frango da cidade naquele precinho!
-              O galeto inteiro é uma forma diferente, mas muito saborosa de comer frango no churrasco!
-              Muitas vezes até mais suculenta também! Principalmente com o nosso tempero especial!
+                {{product.description}}
             </p>
         </mat-card-content>
         <mat-card-actions class="flex mx-2 justify-between">
             <div class="flex items-center">
-                <span class="text-xl font-bold text-left flex-shrink-0 mr-1">R$ 36,00</span>
+                <span class="text-xl font-bold text-left flex-shrink-0 mr-1">R$ {{product.price}}</span>
             
                 <div>
                         
