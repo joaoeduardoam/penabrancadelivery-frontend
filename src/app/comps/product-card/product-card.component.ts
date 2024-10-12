@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { UpdateProductModalComponent } from '../update-product-modal/update-product-modal.component';
 import { Product } from '../../model/Product';
+import { ProductService } from '../../services/product/product.service';
 
 @Component({
   selector: 'app-product-card',
@@ -17,10 +18,15 @@ export class ProductCardComponent {
 
   @Input() product:Product
 
-  constructor (public dialog: MatDialog){}
+  constructor (public dialog: MatDialog, private productService:ProductService){}
 
   openUpdateProductModal(){
     this.dialog.open(UpdateProductModalComponent)
+  }
+
+  handleDeleteProduct(){
+    this.productService.deleteProduct(this.product.id).subscribe()
+
   }
 
 }
