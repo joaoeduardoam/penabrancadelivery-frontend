@@ -39,7 +39,7 @@ export class ProductService {
 
   createProduct(product:any):Observable<any>{
     const headers=this.getHeaders();
-    console.log("createProduct() product: ", product.value)
+    console.log("createProduct() product: ", product)
     return this.http.post(`${this.baseUrl}/products`, product.value, {headers}).pipe(
       tap((newProduct)=>{
         const currentState=this.productSubject.value;
@@ -50,7 +50,9 @@ export class ProductService {
     )
   }
 
-  updateProduct(product:any):Observable<any>{
+
+
+  updateProduct(product:Product):Observable<any>{
     const headers=this.getHeaders();
     return this.http.put(`${this.baseUrl}/products/${product.id}`, product, {headers}).pipe(
       tap((updatedProduct:any)=>{
@@ -63,6 +65,11 @@ export class ProductService {
       })
     )
   }
+
+
+
+
+
 
   deleteProduct(productId:any):Observable<any>{
     const headers=this.getHeaders();

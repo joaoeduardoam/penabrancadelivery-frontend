@@ -21,7 +21,9 @@ export class ProductCardComponent {
   constructor (public dialog: MatDialog, private productService:ProductService){}
 
   openUpdateProductModal(){
-    this.dialog.open(UpdateProductModalComponent)
+    this.dialog.open(UpdateProductModalComponent, {
+      data: this.product // Passando o produto para o modal
+    });
   }
 
   handleDeleteProduct(){
