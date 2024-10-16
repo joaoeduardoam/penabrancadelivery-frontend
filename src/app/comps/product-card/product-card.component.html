@@ -29,15 +29,19 @@
                 </button> -->
             </div>
             <div class="flex gap-2">
-                <button mat-button >
+                <button *ngIf="userRole === 'ADMIN'" mat-button >
                     <mat-icon>add_shopping_cart</mat-icon>
                     Adicionar
+                </button>
+                <button *ngIf="userRole === 'ADMIN'" mat-button >
+                    <mat-icon>shopping_cart</mat-icon>
+                    Comprar
                 </button> 
-                <button mat-fab (click)="openUpdateProductModal()"
+                <button *ngIf="userRole === 'ADMINA'" mat-fab (click)="openUpdateProductModal()"
                     style="background-color: primary; color: #ba005c; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                     <mat-icon>edit</mat-icon>
                   </button>
-                <button (click)="handleDeleteProduct()" mat-fab style="background-color: primary; color: #ba005c; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <button *ngIf="userRole === 'ADMINA'" (click)="handleDeleteProduct()" mat-fab style="background-color: primary; color: #ba005c; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                   <mat-icon>delete</mat-icon>
                 </button>
             </div>
