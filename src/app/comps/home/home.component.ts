@@ -9,6 +9,7 @@ import {
 import { CreateProductModalComponent } from '../create-product-modal/create-product-modal.component';
 import { ProductService } from '../../services/product/product.service';
 import { Product } from '../../model/Product';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -21,9 +22,11 @@ export class HomeComponent {
 
   products: Product[] = [];
 
+  userRole: string;
  
 
-  constructor (public dialog: MatDialog, private productService:ProductService){}
+  constructor (public dialog: MatDialog, private productService:ProductService, private authService:AuthService){}
+
 
   openCreateProductModal(){
     this.dialog.open(CreateProductModalComponent)
@@ -42,6 +45,13 @@ export class HomeComponent {
         this.products = state.products
       }
     )
+
+    this.authService.getUserProfile().subscribe(
+      (auth)=>{
+        this.userRole = auth.role
+        console.log("userRole: ", this.userRole)
+      }
+    );
 
   }
 

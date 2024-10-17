@@ -16,6 +16,7 @@ export class ProductService {
 
   productSubject = new BehaviorSubject<any>({
     products:[],
+    product:Product,
     loading:false,
     newProduct:null
   })
@@ -36,6 +37,18 @@ export class ProductService {
       })
     )
   }
+
+  findProductById(productId:number):Observable<any>{
+    const headers=this.getHeaders();
+    return this.http.get(`${this.baseUrl}/products/${productId}`,{headers}).pipe(
+      tap((product)=>{
+        const currentState=this.productSubject.value;
+        this.productSubject.next({...currentState,product});
+      })
+    )
+  }
+
+  
 
   createProduct(product:any):Observable<any>{
     const headers=this.getHeaders();
