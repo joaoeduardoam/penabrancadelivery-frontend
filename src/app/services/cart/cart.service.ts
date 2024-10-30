@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Cart, CartItemAdd } from '../../model/Cart';
@@ -18,12 +18,20 @@ export class CartService {
   private keyCartStorage = 'cart';
   private keySessionId = 'stripe-session-id';
 
+
   private addedToCart$ = new BehaviorSubject<Array<CartItemAdd>>([]);
   addedToCart = this.addedToCart$.asObservable();
 
   constructor() {
     const cartFromLocalStorage = this.getCartFromLocalStorage();
     this.addedToCart$.next(cartFromLocalStorage);
+  }
+
+  private getHeaders():HttpHeaders{
+    const token=localStorage.getItem("jwt")
+    return new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem("jwt")}`
+    })
   }
 
   private getCartFromLocalStorage(): Array<CartItemAdd> {
@@ -88,15 +96,18 @@ export class CartService {
   }
 
   getCartDetail(): Observable<Cart> {
+    const headers=this.getHeaders();
     const cartFromLocalStorage = this.getCartFromLocalStorage();
-    const publicIdsForURL = cartFromLocalStorage.reduce(
-      (acc, item) => `${acc}${acc.length > 0 ? ',' : ''}${item.id}`,
-      ''
-    );
+    const productsIdsList = cartFromLocalStorage.map(item => item.id);
+
+    // const productsIdsList = cartFromLocalStorage.reduce(
+    //   (acc, item) => `${acc}${acc.length > 0 ? ',' : ''}${item.id}`,
+    //   ''
+    // );    
+
+
     return this.http
-      .get<Cart>(`${this.ordersUrl}/get-cart-details`, {
-        params: { productIds: publicIdsForURL },
-      })
+      .post<Cart>(`${this.ordersUrl}/get-cart-details`, productsIdsList, {headers})
       .pipe(map((cart) => this.mapQuantity(cart, cartFromLocalStorage)));
   }
 
