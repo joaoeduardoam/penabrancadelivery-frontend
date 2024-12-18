@@ -35,6 +35,8 @@ export class ProductCardComponent {
     }
     
   }
+
+  
   openUpdateProductModal(){
     this.dialog.open(UpdateProductModalComponent, {
       data: this.product // Passando o produto para o modal

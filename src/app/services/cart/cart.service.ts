@@ -25,6 +25,15 @@ export class CartService {
   constructor() {
     const cartFromLocalStorage = this.getCartFromLocalStorage();
     this.addedToCart$.next(cartFromLocalStorage);
+
+
+    // Listens to the 'storage' event and updates the state when localStorage changes outside the current tab scope, i.e. updates the other tabs.
+    if (isPlatformBrowser(this.platformId)) {
+      window.addEventListener('storage', () => {
+        const updatedCart = this.getCartFromLocalStorage();
+        this.addedToCart$.next(updatedCart);
+      });
+    }
   }
 
   private getHeaders():HttpHeaders{
@@ -33,6 +42,12 @@ export class CartService {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`
     })
   }
+
+  private updateCartInLocalStorage(cart: Array<CartItemAdd>): void {
+    localStorage.setItem(this.keyCartStorage, JSON.stringify(cart));
+    this.addedToCart$.next(cart); 
+  }
+
 
   private getCartFromLocalStorage(): Array<CartItemAdd> {
     if (isPlatformBrowser(this.platformId)) {
@@ -47,10 +62,13 @@ export class CartService {
     }
   }
 
+
+
   addToCart(id: string, command: 'add' | 'remove'): void {
     if (isPlatformBrowser(this.platformId)) {
       const itemToAdd: CartItemAdd = { id, quantity: 1 };
       const cartFromLocalStorage = this.getCartFromLocalStorage();
+
       if (cartFromLocalStorage.length !== 0) {
         const productExist = cartFromLocalStorage.find(
           (item) => item.id === id
@@ -67,11 +85,15 @@ export class CartService {
       } else {
         cartFromLocalStorage.push(itemToAdd);
       }
-      localStorage.setItem(
-        this.keyCartStorage,
-        JSON.stringify(cartFromLocalStorage)
-      );
-      this.addedToCart$.next(cartFromLocalStorage);
+
+      // localStorage.setItem(
+      //   this.keyCartStorage,
+      //   JSON.stringify(cartFromLocalStorage)
+      // );
+
+      // this.addedToCart$.next(cartFromLocalStorage);
+
+      this.updateCartInLocalStorage(cartFromLocalStorage);
     }
   }
 
@@ -86,11 +108,14 @@ export class CartService {
           cartFromLocalStorage.indexOf(productExist),
           1
         );
-        localStorage.setItem(
-          this.keyCartStorage,
-          JSON.stringify(cartFromLocalStorage)
-        );
-        this.addedToCart$.next(cartFromLocalStorage);
+
+        // localStorage.setItem(
+        //   this.keyCartStorage,
+        //   JSON.stringify(cartFromLocalStorage)
+        // );
+        // this.addedToCart$.next(cartFromLocalStorage);
+
+        this.updateCartInLocalStorage(cartFromLocalStorage);
       }
     }
   }
@@ -101,7 +126,7 @@ export class CartService {
     const productsIdsList = cartFromLocalStorage.map(item => item.id);
 
     // const productsIdsList = cartFromLocalStorage.reduce(
-    //   (acc, item) => `${acc}${acc.length > 0 ? ',' : ''}${item.id}`,
+      // (acc, item) => `${acc}${acc.length > 0 ? ',' : ''}${item.id}`,
     //   ''
     // );    
 
