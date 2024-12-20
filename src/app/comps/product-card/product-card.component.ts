@@ -8,6 +8,9 @@ import { Product } from '../../model/Product';
 import { ProductService } from '../../services/product/product.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { CartService } from '../../services/cart/cart.service';
+import { interval } from 'rxjs/internal/observable/interval';
+import { take } from 'rxjs/internal/operators/take';
 
 @Component({
   selector: 'app-product-card',
@@ -22,7 +25,10 @@ export class ProductCardComponent {
 
   userRole: string;
 
-  constructor (public dialog: MatDialog, private productService:ProductService, private authService:AuthService){}
+  labelAddToCart = 'Adicionar'
+  iconAddToCart = 'add_shopping_cart'
+
+  constructor (public dialog: MatDialog, private productService:ProductService, private authService:AuthService, private cartService:CartService){}
 
   ngOnInit(): void {    
     if (typeof window !== 'undefined') {
@@ -47,5 +53,19 @@ export class ProductCardComponent {
     this.productService.deleteProduct(this.product.id).subscribe()
 
   }
+
+  addToCart(productId: string) : void { 
+    this.cartService.addToCart(productId, 'add');
+    this.labelAddToCart = 'Added to cart';
+    this.iconAddToCart = 'check';
+    
+    interval(500).pipe(take(1)).subscribe(() : void => {
+    this. labelAddToCart = 'Adicionar';
+    this.iconAddToCart = 'add_shopping_cart';
+    })
+  }
+
+  
+
 
 }

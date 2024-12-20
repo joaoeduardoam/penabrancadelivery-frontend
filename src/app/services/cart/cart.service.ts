@@ -90,9 +90,9 @@ export class CartService {
       //   this.keyCartStorage,
       //   JSON.stringify(cartFromLocalStorage)
       // );
-
       // this.addedToCart$.next(cartFromLocalStorage);
-
+      
+      console.log("getCartFromLocalStorage(): ", this.getCartFromLocalStorage())
       this.updateCartInLocalStorage(cartFromLocalStorage);
     }
   }

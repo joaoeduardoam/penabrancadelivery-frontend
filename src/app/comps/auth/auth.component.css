@@ -1,3 +1,7 @@
+/* Google Font Link */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+
 .example-form {
     min-width: 150px;
     max-width: 500px;
@@ -18,8 +22,6 @@
   }
   
 
-/* Google Font Link */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
 I
 *{

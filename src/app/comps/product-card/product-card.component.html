@@ -29,9 +29,9 @@
                 </button> -->
             </div>
             <div class="flex gap-2">
-                <button *ngIf="userRole === 'ADMIN'" mat-button >
-                    <mat-icon>add_shopping_cart</mat-icon>
-                    Adicionar
+                <button *ngIf="userRole === 'ADMIN'" mat-button (click)="addToCart(product.id.toString())">
+                    <mat-icon>{{iconAddToCart}}</mat-icon>
+                    {{labelAddToCart}}
                 </button>
                 <button *ngIf="userRole === 'ADMIN'" mat-button >
                     <mat-icon>shopping_cart</mat-icon>
