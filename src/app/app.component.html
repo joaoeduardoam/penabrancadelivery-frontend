@@ -3,7 +3,7 @@
         
         @if(user){
             <app-header></app-header>
-            <app-home/>
+            <router-outlet></router-outlet>
         }
         @else {
             <app-auth/>

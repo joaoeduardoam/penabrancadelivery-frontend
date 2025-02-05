@@ -7,7 +7,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { AuthService } from '../../services/auth/auth.service';
 import {MatMenuModule} from '@angular/material/menu';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart/cart.service';
 
 import {MatBadgeModule} from '@angular/material/badge';
@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatSlideToggleModule, MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, MatBadgeModule], 
+  imports: [MatSlideToggleModule, MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, MatBadgeModule, RouterModule ], 
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -45,6 +45,12 @@ export class HeaderComponent {
     }
     
   }
+
+  goToShopCart() {
+    console.log("goToShopCart()");
+    this.router.navigate(['/shop-cart']);
+  }
+
 
   ngOnDestroy() {
     if (this.subscription) {

@@ -2,7 +2,7 @@
     
 <mat-toolbar>    
 
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <button mat-icon-button [routerLink]="['/home']"class="example-icon" aria-label="Example icon-button with menu icon">
       <mat-icon>menu</mat-icon>
     </button>
 
@@ -30,7 +30,8 @@
       
     <div class="custom-color">
       <!-- <div> -->
-        <button mat-button matBadge="{{numberItemsInCart}}" matBadgePosition="after">
+        <!-- <button mat-button [routerLink]="['/shop-cart']" matBadge="{{numberItemsInCart}}" matBadgePosition="after"> -->
+        <button mat-button [routerLink]="['/shop-cart']" matBadge="{{numberItemsInCart}}" matBadgePosition="after">
           <mat-icon>shopping_cart</mat-icon>        
         </button>
       <!-- </div> -->
