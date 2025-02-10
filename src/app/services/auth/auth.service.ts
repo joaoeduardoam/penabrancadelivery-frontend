@@ -36,10 +36,10 @@ export class AuthService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem("jwt")}`
     })
-    console.log("headers", headers)
+    // console.log("headers", headers)
     return this.http.get<any>(`${this.baseUrl}/users/profile`, {headers}).pipe(
       tap((user)=>{
-        console.log("getUserProfile()", user)
+        console.log("getUserProfile(): ", user)
         const currentState=this.authSubject.value;
         this.authSubject.next({...currentState,user})
       })

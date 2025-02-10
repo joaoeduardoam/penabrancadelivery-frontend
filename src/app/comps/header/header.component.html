@@ -24,18 +24,16 @@
             <button mat-button>Second Link</button>
             <button mat-button>Third Link</button>
         </div> -->
-      </nav>
+    </nav>
 
 
       
     <div class="custom-color">
-      <!-- <div> -->
-        <!-- <button mat-button [routerLink]="['/shop-cart']" matBadge="{{numberItemsInCart}}" matBadgePosition="after"> -->
-        <button mat-button [routerLink]="['/shop-cart']" matBadge="{{numberItemsInCart}}" matBadgePosition="after">
-          <mat-icon>shopping_cart</mat-icon>        
-        </button>
-      <!-- </div> -->
-      <button mat-button [matMenuTriggerFor]="menu">{{userName}}</button>
+      <button mat-button [routerLink]="['/shop-cart']" matBadge="{{numberItemsInCart}}" matBadgePosition="after">
+        <mat-icon>shopping_cart</mat-icon>        
+      </button>
+
+      <button mat-button [matMenuTriggerFor]="menu">{{userName}}</button>      
       <mat-menu #menu="matMenu">
         <button mat-menu-item [style.color]="'#ba005c'" (click)="handleLogOut()">Logout</button>
       </mat-menu>

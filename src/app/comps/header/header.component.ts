@@ -46,10 +46,10 @@ export class HeaderComponent {
     
   }
 
-  goToShopCart() {
-    console.log("goToShopCart()");
-    this.router.navigate(['/shop-cart']);
-  }
+  // goToShopCart() {
+  //   console.log("goToShopCart()");
+  //   this.router.navigate(['/shop-cart']);
+  // }
 
 
   ngOnDestroy() {

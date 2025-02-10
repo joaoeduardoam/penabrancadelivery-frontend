@@ -37,7 +37,8 @@ export class CartService {
   }
 
   private getHeaders():HttpHeaders{
-    const token=localStorage.getItem("jwt")
+    const token=localStorage.getItem("jwt");
+    console.log("localStorage.getItem(jwt): "+token);
     return new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem("jwt")}`
     })
@@ -92,8 +93,9 @@ export class CartService {
       // );
       // this.addedToCart$.next(cartFromLocalStorage);
       
-      console.log("getCartFromLocalStorage(): ", this.getCartFromLocalStorage())
+      
       this.updateCartInLocalStorage(cartFromLocalStorage);
+      console.log("getCartFromLocalStorage(): ", this.getCartFromLocalStorage());
     }
   }
 
@@ -121,6 +123,7 @@ export class CartService {
   }
 
   getCartDetail(): Observable<Cart> {
+    console.log("getCartDetail()");
     const headers=this.getHeaders();
     const cartFromLocalStorage = this.getCartFromLocalStorage();
     const productsIdsList = cartFromLocalStorage.map(item => item.id);
@@ -130,10 +133,23 @@ export class CartService {
     //   ''
     // );    
 
+    // console.log("getCartDetail() - cartFromLocalStorage"+cartFromLocalStorage);
+    // console.log("getCartDetail() - productsIdsList"+productsIdsList);
 
-    return this.http
-      .post<Cart>(`${this.ordersUrl}/get-cart-details`, productsIdsList, {headers})
-      .pipe(map((cart) => this.mapQuantity(cart, cartFromLocalStorage)));
+    // console.log("post<Cart>(`${this.ordersUrl}/get-cart-details`: "+this.http
+    //   .post<Cart>(`${this.ordersUrl}/get-cart-details`, productsIdsList, {headers})
+    //   .pipe(map((cart) => this.mapQuantity(cart, cartFromLocalStorage))));
+
+    const cartObservable = this.http
+      .post<Cart>(`${this.ordersUrl}/get-cart-details`, productsIdsList, { headers })
+      .pipe(
+        map((cart) => {
+          console.log("Cart received from API:", cart);
+          return this.mapQuantity(cart, cartFromLocalStorage);
+        })
+      );
+    console.log("cartObservable: "+cartObservable);
+    return cartObservable;
   }
 
   private mapQuantity(

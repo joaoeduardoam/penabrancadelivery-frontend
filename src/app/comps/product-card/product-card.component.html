@@ -33,7 +33,7 @@
                     <mat-icon>{{iconAddToCart}}</mat-icon>
                     {{labelAddToCart}}
                 </button>
-                <button *ngIf="userRole === 'ADMIN'" mat-button >
+                <button *ngIf="userRole === 'ADMIN'" mat-button [routerLink]="['/shop-cart']">
                     <mat-icon>shopping_cart</mat-icon>
                     Comprar
                 </button> 
@@ -41,7 +41,8 @@
                     style="background-color: primary; color: #ba005c; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                     <mat-icon>edit</mat-icon>
                   </button>
-                <button *ngIf="userRole === 'CUSTOMER'" (click)="handleDeleteProduct()" mat-fab style="background-color: primary; color: #ba005c; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <button *ngIf="userRole === 'CUSTOMER'" (click)="handleDeleteProduct()" 
+                    mat-fab style="background-color: primary; color: #ba005c; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                   <mat-icon>delete</mat-icon>
                 </button>
             </div>

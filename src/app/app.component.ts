@@ -27,6 +27,7 @@ export class AppComponent {
         }
       );
     }
+    console.log("AppComponent - ngOnInit() - this.user: "+ this.user)
     
   }
 

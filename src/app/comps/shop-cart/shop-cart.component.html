@@ -1,1 +1,74 @@
-<p>shop-cart works!</p>
+
+
+<div class="text-2xl mb-2">Carrinho de Compras</div>
+<div class="flex flex-col lg:flex-row">
+  <div class="flex-grow me-5 w-full">
+    @if (cartQuery.isSuccess() && this.cart.length !== 0) {
+      @for (item of cart; track item.id) {
+        <div class="border-t border-gray-200"></div>
+        <div class="flex items-center justify-between">
+          <div class="p-4 flex">
+            <img [src]="item.image"
+                 alt="{{item.title}}" width="110px" class="max-w-full lg:max-w-none me-5" />
+            
+            <div class="w-40">
+              <!-- <a [routerLink]="['/product', item.id]">{{ item.name }}</a> -->
+              <div class="font-semibold">{{ item.title }}</div> 
+              <div class="font-bold">{{ item.price | currency }}</div>
+            </div>
+          </div>
+          <div class="flex">
+            
+            <div class="w-32 flex justify-around items-center">
+              <button mat-icon-button
+                      (click)="removeQuantityToCart(item.id, item.quantity)">-
+              </button>
+
+              <div>{{ item.quantity }}</div>
+
+              <button mat-icon-button  (click)="addQuantityToCart(item.id)">+
+              </button>
+            </div>
+
+            <button mat-flat-button (click)="removeItem(item.id)">
+              Remover
+            </button>
+
+          </div>
+        </div>
+      }
+    } 
+    @else if (cartQuery.isPending()) {
+      <div class="flex w-full justify-center">
+        <span class="loading loading-spinner loading-lg"></span>
+      </div>
+    } @else if (checkIfEmptyCart()) {
+      <div class="flex flex-col items-center justify-center h-60">
+        <div class="font-bold text-2xl">Sem itens no carrinho.</div>
+        <div>Adicione alguns itens no carrinho.</div>
+      </div>
+    }
+  </div>
+  <div class="bg-gray-100 border-gray-400 p-5 w-full lg:w-96 h-72 mt-6 lg:mt-0 rounded-md">
+    <div class="font-bold">Resumo da Compra</div>
+    <div class="border-t border-gray-300 my-5"></div>
+    <div class="flex justify-between">
+      <div>Frete</div>
+      <div>{{ 0 | currency }}</div>
+    </div>
+    <div class="border-t border-gray-300 my-5"></div>
+    <div class="flex justify-between font-bold">
+      <div>Total</div>
+      <div>{{ computeTotal() | currency }}</div>
+    </div>
+    <div class="border-t border-gray-300 my-5"></div>
+    <div class="flex justify-center">
+      <button mat-button class="w-full lg:w-auto"
+            [disabled]="cartQuery.isSuccess() && cartQuery.data()!.products.length === 0"
+            (click)="checkout()">
+      {{ labelCheckout }}
+    </button>
+    </div>
+    
+  </div>
+</div>
