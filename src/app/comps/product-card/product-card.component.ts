@@ -57,7 +57,7 @@ export class ProductCardComponent {
 
   addToCart(productId: string) : void { 
     this.cartService.addToCart(productId, 'add');
-    this.labelAddToCart = 'Added to cart';
+    this.labelAddToCart = 'Adicionado ao carrinho';
     this.iconAddToCart = 'check';
     
     interval(500).pipe(take(1)).subscribe(() : void => {

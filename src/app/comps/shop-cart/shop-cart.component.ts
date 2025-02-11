@@ -24,7 +24,6 @@ export class ShopCartComponent implements OnInit {
 
   constructor (private productService:ProductService, private authService:AuthService, private cartService:CartService){
     console.log("inicio constructor() - shop-cart");
-    this.checkUserLoggedIn();
     this.extractListToUpdate();
     this.checkUserLoggedIn();
     console.log("fim do constructor() - shop-cart");
@@ -33,6 +32,10 @@ export class ShopCartComponent implements OnInit {
   private queryClient = inject(QueryClient);
   platformId = inject(PLATFORM_ID);
   user:any=null;
+  cart: Array<CartItem> = []
+  labelCheckout = 'Faça login para pagamento';  
+  action: 'login' | 'checkout' = 'login';
+
 
   ngOnInit(): void {
     console.log("inicio ngOnInit() - shop-cart");
@@ -46,11 +49,7 @@ export class ShopCartComponent implements OnInit {
      console.log("fim ngOnInit() - shop-cart");
   }
 
-  cart: Array<CartItem> = []
-
-  labelCheckout = 'Faça login para pagamento';
   
-  action: 'login' | 'checkout' = 'login';
 
   cartQuery = injectQuery(() => ({
     queryKey: ['cart'],
@@ -59,15 +58,35 @@ export class ShopCartComponent implements OnInit {
 
   
   private extractListToUpdate() {
-    console.log("inicio do extractListToUpdate(): ", this.cartQuery.isSuccess());
-    effect(() => {
-      console.log("this.cartQuery.isSuccess(): ", this.cartQuery.isSuccess());
+    console.log("begin of extractListToUpdate(): ", this.cartQuery.isSuccess());
+  
+  // Criar o effect e armazenar a referência
+  const effectRef = effect(() => {
+    try {
       if (this.cartQuery.isSuccess()) {
-        console.log("extractListToUpdate(): true");
-        this.cart = this.cartQuery.data().products;
+        const newProducts = this.cartQuery.data().products;
+        
+        // Validação de dados
+        if (!Array.isArray(newProducts)) {
+          console.error('Invalid data received');
+          return;
+        }
+
+        // Comparação antes de atualizar
+        if (JSON.stringify(this.cart) !== JSON.stringify(newProducts)) {
+          this.cart = newProducts;
+          console.log('Cart updated with new products');
+        }
       }
-    });
-    console.log("fim do extractListToUpdate(): "+this.cart);
+    } catch (error) {
+      console.error('Error in the effect:', error);
+    }
+  });
+
+  console.log("end of extractListToUpdate(): ", this.cart);
+  
+  // Retornar a função de limpeza
+  return () => effectRef.destroy();
   }
 
   private checkUserLoggedIn() {
