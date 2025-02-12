@@ -1,15 +1,14 @@
-import { Component, effect, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, effect, EffectRef, inject, Injector, OnInit, PLATFORM_ID, runInInjectionContext } from '@angular/core';
 import { CartService } from '../../services/cart/cart.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { ProductService } from '../../services/product/product.service';
 import { CartItem, CartItemAdd } from '../../model/Cart';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
-  injectMutation,
   injectQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
-import { lastValueFrom, tap } from 'rxjs';
+import { catchError, EMPTY, lastValueFrom, Subject, takeUntil, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -23,10 +22,7 @@ export class ShopCartComponent implements OnInit {
 
 
   constructor (private productService:ProductService, private authService:AuthService, private cartService:CartService){
-    console.log("inicio constructor() - shop-cart");
-    this.extractListToUpdate();
-    this.checkUserLoggedIn();
-    console.log("fim do constructor() - shop-cart");
+    console.log("constructor() - shop-cart");
   }
 
   private queryClient = inject(QueryClient);
@@ -35,79 +31,121 @@ export class ShopCartComponent implements OnInit {
   cart: Array<CartItem> = []
   labelCheckout = 'Faça login para pagamento';  
   action: 'login' | 'checkout' = 'login';
-
-
-  ngOnInit(): void {
-    console.log("inicio ngOnInit() - shop-cart");
-    if (typeof window !== 'undefined') {
-      this.authService.getUserProfile().pipe(
-        tap(auth => this.user = auth.email)
-      ).subscribe();
-    }
-    console.log("ngOnInit() - this.user: "+this.user);
-     this.cartService.addedToCart.subscribe((cart) => this.updateQuantity(cart));
-     console.log("fim ngOnInit() - shop-cart");
-  }
+  private cartEffect: EffectRef;
+  private userEffect: EffectRef;
+  private destroy$ = new Subject<void>();
+  private injector = inject(Injector);
 
   
-
   cartQuery = injectQuery(() => ({
     queryKey: ['cart'],
     queryFn: () => lastValueFrom(this.cartService.getCartDetail())
   })  );
 
-  
-  private extractListToUpdate() {
-    console.log("begin of extractListToUpdate(): ", this.cartQuery.isSuccess());
-  
-  // Criar o effect e armazenar a referência
-  const effectRef = effect(() => {
-    try {
-      if (this.cartQuery.isSuccess()) {
-        const newProducts = this.cartQuery.data().products;
-        
-        // Validação de dados
-        if (!Array.isArray(newProducts)) {
-          console.error('Invalid data received');
-          return;
-        }
 
-        // Comparação antes de atualizar
-        if (JSON.stringify(this.cart) !== JSON.stringify(newProducts)) {
-          this.cart = newProducts;
-          console.log('Cart updated with new products');
-        }
-      }
-    } catch (error) {
-      console.error('Error in the effect:', error);
+
+  ngOnInit(): void {
+    console.log("inicio ngOnInit() - shop-cart");
+  
+    if (typeof window !== 'undefined') {
+      this.initializeUserProfile();
+      this.initializeCart();
     }
-  });
+    
+    this.cartService.addedToCart.subscribe((cart) => this.updateQuantity(cart));
+    console.log("fim ngOnInit() - shop-cart");
 
-  console.log("end of extractListToUpdate(): ", this.cart);
-  
-  // Retornar a função de limpeza
-  return () => effectRef.destroy();
   }
 
-  private checkUserLoggedIn() {
-    effect(() => {
-      // const connectedUserQuery = this.oauth2Service.connectedUserQuery;
-      // if (connectedUserQuery?.isError()) {
-      //   this.labelCheckout = 'Login to checkout';
-      //   this.action = 'login';
-      // } else if (connectedUserQuery?.isSuccess()) {
-      //   this.labelCheckout = 'Checkout';
-      //   this.action = 'checkout';
-      // }
-      if (!this.user) {
-        this.labelCheckout = 'Faça login para pagamento';
-        this.action = 'login';
-      } else {
-        this.labelCheckout = 'Pagamento';
-        this.action = 'checkout';
-      }
+
+  
+  private initializeUserProfile(): void {
+    // Primeiro carregamos o perfil do usuário
+    this.authService.getUserProfile().pipe(
+      takeUntil(this.destroy$),
+      tap(auth => {
+        console.log('Recebido perfil do usuário:', auth);
+        this.user = auth.email;
+        console.log('User profile updated:', this.user);
+        
+        // Só configuramos os effects após ter o usuário
+        this.setupEffects();
+      }),
+      catchError(error => {
+        console.error('Error fetching user profile:', error);
+        return EMPTY;
+      })
+    ).subscribe();
+  }
+
+
+  
+  private initializeCart(): void {
+    // Se inscreve nas atualizações do carrinho
+    this.cartService.addedToCart.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((cart) => this.updateQuantity(cart));
+  }
+
+
+  private setupEffects(): void {
+    // Use runInInjectionContext do rxjs-interop
+    // O Injector NÃO está naturalmente disponível aqui por isso usa-se o runInInjectionContext()
+    // Quando usamos estas funções fora dos locais onde o contexto de injeção existe naturalmente,
+    //  precisamos criar artificialmente este contexto.
+
+    // constructor(private authService: AuthService) {
+    // O Injector está disponível aqui}
+
+    // ngOnInit() {
+    //   effect(() => {  // ❌ Erro: Sem contexto de injeção}
+    runInInjectionContext(this.injector, () => {
+      this.cartEffect = effect(() => {
+        try {
+          if (this.cartQuery.isSuccess()) {
+            const newProducts = this.cartQuery.data().products;
+            
+            if (!Array.isArray(newProducts)) {
+              console.error('Invalid cart data received');
+              return;
+            }
+
+            if (JSON.stringify(this.cart) !== JSON.stringify(newProducts)) {
+              this.cart = newProducts;
+              console.log('Cart updated with new products:', this.cart);
+            }
+          }
+        } catch (error) {
+          console.error('Error in cart effect:', error);
+        }
+      });
+
+      this.userEffect = effect(() => {
+        this.labelCheckout = this.user ? 'Pagamento' : 'Faça login para pagamento';
+        this.action = this.user ? 'checkout' : 'login';
+        console.log('User state updated:', {
+          user: this.user,
+          action: this.action,
+          labelCheckout: this.labelCheckout
+        });
+      });
     });
-    console.log("checkUserLoggedIn(): this.action"+this.action);
+  }
+
+
+  
+  ngOnDestroy(): void {
+    // Limpa os effects
+    if (this.cartEffect) {
+      this.cartEffect.destroy();
+    }
+    if (this.userEffect) {
+      this.userEffect.destroy();
+    }
+  
+    // Limpa as subscrições
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 
