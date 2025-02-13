@@ -83,13 +83,13 @@ export class ShopCartComponent implements OnInit {
   private initializeCart(): void {
     // Se inscreve nas atualizações do carrinho
     this.cartService.addedToCart.pipe(
-      takeUntil(this.destroy$)
+      takeUntil(this.destroy$) //takeUntil observa um "sinal" (outro observable), muito útil para cancelar subscrições quando o componente é destruído
     ).subscribe((cart) => this.updateQuantity(cart));
   }
 
 
   private setupEffects(): void {
-    // Use runInInjectionContext do rxjs-interop
+    // Uso de runInInjectionContext do rxjs-interop
     // O Injector NÃO está naturalmente disponível aqui por isso usa-se o runInInjectionContext()
     // Quando usamos estas funções fora dos locais onde o contexto de injeção existe naturalmente,
     //  precisamos criar artificialmente este contexto.
@@ -99,6 +99,7 @@ export class ShopCartComponent implements OnInit {
 
     // ngOnInit() {
     //   effect(() => {  // ❌ Erro: Sem contexto de injeção}
+    
     runInInjectionContext(this.injector, () => {
       this.cartEffect = effect(() => {
         try {
@@ -144,6 +145,7 @@ export class ShopCartComponent implements OnInit {
     }
   
     // Limpa as subscrições
+    // Emite um valor no destroy$, cancelando todas subscrições que usam takeUntil
     this.destroy$.next();
     this.destroy$.complete();
   }
